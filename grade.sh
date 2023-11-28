@@ -1,6 +1,6 @@
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m'
+RED='\033[0;31m'   # Red color to display errors
+GREEN='\033[0;32m'  # Green color to display successes
+NC='\033[0m'        # No color to clear out the last used color
 
 CPATH='.:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar'
 
@@ -16,14 +16,15 @@ if [[ $? -ne 0 ]]; then
 fi
 
 echo -e "${GREEN}Finished cloning${NC}"
-if [[ ! -f student-submission/ListExamples.java ]]; then
+student_file=`find student-submission/ -name ListExamples.java`
+if [[ student_file == "" ]]; then
     echo -e "${RED}File not found"
     exit 1
 fi
 
 echo -e "${GREEN}File ListExamples.java Found!"
 
-cp student-submission/ListExamples.java ./TestListExamples.java grading-area/
+cp $student_file ./TestListExamples.java grading-area/
 
 grepOut=`cat grading-area/ListExamples.java | grep -E "class\s+ListExamples"`
 if [[ $grepOut == "" ]] ; then
